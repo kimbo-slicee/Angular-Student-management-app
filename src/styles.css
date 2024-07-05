@@ -13,7 +13,7 @@ body{
   color: white;
 }
 .main-admin-container{
-  margin: 60px 100px;
+  margin: 60px 90px;
   background-color: #28282B;
   color:#17202A;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -27,8 +27,8 @@ body{
   display: flex;
 }
 .admin-header-title{
-  margin: 0px 20px;
-  font-size: 20px;
+  margin: 0 20px;
+  font-size: 17px;
   font-family: 'Heebo', sans-serif;
 }
 .admin-header-filter{
@@ -99,6 +99,7 @@ th {
   color: #28B463;
   font-weight:bolder;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .delete-button, .cancel-button{
@@ -107,8 +108,10 @@ th {
   color: #E74C3C;
   font-weight:bolder;
   background-color: transparent;
+  cursor: pointer;
 }
 .save-button{
+  cursor: pointer;
   padding: 5px 5px;
   border: none;
   color: #2874A6;

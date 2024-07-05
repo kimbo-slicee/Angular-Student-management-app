@@ -12,8 +12,8 @@ export class StudentService {
    new Student(4, 'maryam', 'Female', new Date('06-12-1995'), 'MBA', 380, 15899),
    new Student(5, 'Yassin', 'Male', new Date('12-21-1999'), 'B.Tech', 430, 7499),
    new Student(6, 'amine', 'Male', new Date('06-18-1997'), 'M.Sc', 320, 7399),
-   new Student(7, 'khalid', 'Male', new Date('06-18-1997'), 'B.Tech', 320, 2799),
-   new Student(8, 'ayman', 'Male', new Date('06-18-1997'), 'M.Sc', 320, 100),
+   new Student(7, 'khalid', 'Male', new Date(), 'B.Tech', 320, 2799),
+   new Student(8, 'ayman', 'Male', new Date(), 'M.Sc', 320, 100),
  ]
   constructor() { }
   createStudent(name:string,gender:string,dob:Date,course:string,marks:number,fee:number){
@@ -28,6 +28,19 @@ export class StudentService {
      totlMarks+=this.studentList[i].marks
    }
    return totlMarks;
+ }
+ findByGender(gender:string="All"){
+   switch (gender){
+     case 'All':
+       return this.studentList;
+     case 'Male':
+       return  this.studentList.filter(student=>student.gender==='Male');
+     case 'Female':
+       return this.studentList.filter(student=>student.gender==='Female')
+     default:
+       return [];
+
+   }
  }
 
 }

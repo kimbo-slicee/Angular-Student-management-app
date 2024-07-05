@@ -1,9 +1,11 @@
-import {Component, ElementRef, inject, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild} from '@angular/core';
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
 import {FooterComponent} from "../footer/footer.component";
 import {StudentService} from "../../services/student.service";
 import {Student} from "../../models/student.model";
-import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgForOf, NgIf, PercentPipe} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FilterPipe} from "../../pipes/filter.pipe";
 
 @Component({
   selector: 'app-students-list',
@@ -13,12 +15,17 @@ import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
     FooterComponent,
     CurrencyPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    PercentPipe,
+    ReactiveFormsModule,
+    FormsModule,
+    FilterPipe,
+    DatePipe
   ],
   templateUrl: './students-list.component.html',
   styleUrl: './students-list.component.css'
 })
-export class StudentsListComponent {
+export class StudentsListComponent implements OnInit{
   studentService: StudentService = inject(StudentService);
   isEditing: boolean = false;
   isInserting: boolean = false;
@@ -39,7 +46,7 @@ export class StudentsListComponent {
   @ViewChild('editCourse') editCourse!: ElementRef;
   @ViewChild('editMarks') editMarks!: ElementRef;
   @ViewChild('editFee') editFee!: ElementRef;
-
+  selectedGender:string='All'
   ngOnInit(){
     this.students = this.studentService.studentList;
     this.totalMarks = this.studentService.getTotalMarks();
@@ -61,6 +68,7 @@ export class StudentsListComponent {
       this.Fee.nativeElement.value
     );
     this.isInserting = false;
+    this.students=this.studentService.findByGender(this.selectedGender)
   }
 
   OnEditClicked(stdId: number){
@@ -78,7 +86,15 @@ export class StudentsListComponent {
     student.course = this.editCourse.nativeElement.value;
     student.marks = this.editMarks.nativeElement.value;
     student.fee = this.editFee.nativeElement.value;
-
     this.isEditing = false;
+    this.students=this.studentService.findByGender(this.selectedGender);
+
+
+  }
+
+
+  findStudentByGender(select: HTMLSelectElement) {
+    this.selectedGender=select.value;
+    this.students=this.studentService.findByGender(select.value);
   }
 }

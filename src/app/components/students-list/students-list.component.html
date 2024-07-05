@@ -1,7 +1,19 @@
 <div class="main-admin-container">
 
   <!--HEADER WITH LOGO AND FILTER DROPDOWN-->
- <app-nav-bar></app-nav-bar>
+  <div class="admin-header">
+    <div class="admin-header-title">
+      <h2>Student Management</h2>
+    </div>
+    <div class="admin-header-filter">
+      <select name="gender" class="filter-select" (change)="findStudentByGender(selectedGender)" #selectedGender>
+        <option value="All">All</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+  </div>
+
   <!--HEADER ENDS-->
 
 
@@ -9,6 +21,7 @@
     <table>
 
       <!--TABLE HRADER-->
+      <thead>
       <tr>
         <th>ID</th>
         <th>Name</th>
@@ -25,16 +38,18 @@
           </button>
         </th>
       </tr>
+      </thead>
       <!--TABLE HEADER ENDS-->
 
       <!--TR FOR INSERING A NEW STUDENT-->
+      <tbody>
       <tr *ngIf="isInserting">
         <td></td>
         <td>
           <input type="text" #name>
         </td>
         <td>
-          <select name="gender" class="select-gender-course" #gender>
+          <select name="gender" class="select-gender-course" #gender >
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
@@ -57,7 +72,7 @@
           <input type="number" min="0" #fee>
         </td>
         <td>
-          <button class="save-button" (click)="OnInsertSaved()">
+          <button class="save-button" (click)="OnInsertSaved()" [value]="selectedGender">
             <i class="fa fa-floppy-o" aria-hidden="true"></i>
           </button>
         </td>
@@ -86,7 +101,7 @@
           </select>
         </td>
 
-        <td *ngIf="!isEditing || std.id !== stdIdToEdit">{{ std.dob }}</td>
+        <td *ngIf="!isEditing || std.id !== stdIdToEdit">{{ std.dob | date:'dd-mm-yyyy'}}</td>
         <td *ngIf="isEditing && std.id === stdIdToEdit">
           <input type="date" [value]="std.dob" #editDob>
         </td>
@@ -105,9 +120,9 @@
           <input type="number" min="0" max="600" [value]="std.marks" #editMarks>
         </td>
 
-        <td>{{ std.marks / totalMarks }}</td>
+        <td>{{ std.marks / totalMarks  | percent :'2.2-2'}}</td>
 
-        <td *ngIf="!isEditing || std.id !== stdIdToEdit">{{ std.fee | currency: 'INR': true: '3.0-0'}}</td>
+        <td *ngIf="!isEditing || std.id !== stdIdToEdit">{{ std.fee | currency}}</td>
         <td *ngIf="isEditing && std.id === stdIdToEdit">
           <input type="number" min="0" [value]="std.fee" #editFee>
         </td>
@@ -133,9 +148,9 @@
           </button>
         </td>
       </tr>
+      </tbody>
     </table>
   </div>
-
   <!--PAGE FOOTER-->
  <app-footer></app-footer>
   <!--PAGE FOOTER ENDS-->
